@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+    // City select for current weather
     $("#submit").on("click", function() {
 
         var input = $("#city").val();
@@ -23,6 +24,7 @@ $(document).ready(function(){
 
         });
 
+        
     });
 
     //Stores input in Local Storage
@@ -38,9 +40,9 @@ $(document).ready(function(){
 
 function show(data){
     return "<h2>Current Weather for " + data.name + ", " + data.sys.country +"</h2>" +
+           "<h3>Description: <img src='http://openweathermap.org/img/w/"+ data.weather[0].icon+".png'> "+ data.weather[0].description +"</h3>" +
            "<h3>Weather:"+ data.weather[0].main +"</h3>" +
-           "<h3>Description:"+ data.weather[0].description +"</h3>" +
-           "<h3>Temperature (F):"+ data.main.temp +"°</h3>" +
+           "<h3>Temperature (F):"+ data.main.temp +"&deg;F</h3>" +
            "<h3>Humidity:"+ data.main.humidity +"%</h3>" +
            "<h3>Wind Speed:"+ data.wind.speed +"MPH</h3>";
 
