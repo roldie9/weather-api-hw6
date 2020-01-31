@@ -1,53 +1,47 @@
 $(document).ready(function(){
 
-    var weather;
-    var api ='http://api.openweathermap.org/data/2.5/weather?q=';
-    var apiKey= '&APPID=7095ec8e31a74b95b15835701569f969';
+    $("#submit").on("click", function() {
 
-    var input = $("#city").val();
+        var input = $("#city").val();
 
+        var api ='http://api.openweathermap.org/data/2.5/weather?q=' + input;
 
-    $.ajax({
+        var apiKey= '&APPID=7095ec8e31a74b95b15835701569f969';
 
-        url: "http://api.openweathermap.org/data/2.5/weather?q=" + input + apiKey,
-        type:"GET",
-        dataType:"jsonp",
-        success: function(data){
-            console.log(data)
-        }
+        $.ajax({
 
+            url: "http://api.openweathermap.org/data/2.5/weather?q=" + input + "&units=imperial" + apiKey,
+            type:"GET",
+            dataType:"jsonp",
+            success: function(data){
+                var widget = show(data);
 
-    })
+                $("#forecast").html(widget);
 
-    function setup() {
-        createCanvas(200,200);
-        var button = select('#submit');
-        button.mousePressed(weatherRequest);
+                $("#city").val('');
+            }
 
-        input = select('#city');
-    }
+        });
 
-
-    function weatherRequest() {
-        var url = api + input.value() + apiKey;
-        loadJSON('url, gotData');
-    }
-
-    function gotData(data) {
-        //println(data);
-        weather = data;
-    }
+    });
 
     //Stores input in Local Storage
     let data = {
-        temp: "67",
-        humidity: "46%",
-        uvi: "LOW"
+        input: "#cityId"
     };
-
 
 
     localStorage.setItem("data", data);
     console.log(localStorage);
 
 });
+
+function show(data){
+    return "<h2>Current Weather for " + data.name + ", " + data.sys.country +"</h2>" +
+           "<h3>Weather:"+ data.weather[0].main +"</h3>" +
+           "<h3>Description:"+ data.weather[0].description +"</h3>" +
+           "<h3>Temperature (F):"+ data.main.temp +"°</h3>" +
+           "<h3>Humidity:"+ data.main.humidity +"%</h3>" +
+           "<h3>Wind Speed:"+ data.wind.speed +"MPH</h3>";
+
+}
